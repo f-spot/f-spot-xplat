@@ -10,10 +10,13 @@ strategy:
   matrix:
     linux:
       imageName: 'ubuntu-16.04'
+      platformConfig: 'ReleaseLinux'
     mac:
       imageName: 'macos-10.14'
+      platformConfig: 'ReleaseMac'
     windows:
       imageName: 'windows-2019'
+      platformConfig: 'ReleaseWin'
 
 pool:
   vmImage: $(imageName)
@@ -21,7 +24,7 @@ pool:
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  buildConfiguration: '$(platformConfig)'
 
 steps:
 - task: DotNetCoreInstaller@0
@@ -40,7 +43,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: '--configuration Release'
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Run Tests
