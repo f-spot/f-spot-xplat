@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSpot.Wpf", "src\FSpot.Wpf\FSpot.Wpf.csproj", "{19F1D747-6296-41EB-98D8-35888394586D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSpot.Core", "src\FSpot.Core\FSpot.Core.csproj", "{04BAB274-59AC-4D54-A1F0-12ACF2E82134}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{941D3FF0-A530-4C1A-B530-CC99C32C6B73}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19F1D747-6296-41EB-98D8-35888394586D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F1D747-6296-41EB-98D8-35888394586D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F1D747-6296-41EB-98D8-35888394586D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F1D747-6296-41EB-98D8-35888394586D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04BAB274-59AC-4D54-A1F0-12ACF2E82134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04BAB274-59AC-4D54-A1F0-12ACF2E82134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04BAB274-59AC-4D54-A1F0-12ACF2E82134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04BAB274-59AC-4D54-A1F0-12ACF2E82134}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE694A02-FAD5-49C5-BF69-C62F0D127DCA}
+	EndGlobalSection
+EndGlobal

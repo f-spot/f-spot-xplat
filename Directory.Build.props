@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <ReleaseVersion>1.0-alpha0</ReleaseVersion>
+        <FSpotTargetFramework>netstandard2.1</FSpotTargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+</Project>
