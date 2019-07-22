@@ -30,6 +30,7 @@ steps:
     version: '3.0.100-preview6-012264'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore packages'
   inputs:
     command: restore
     projects: '**/*.csproj'
@@ -42,13 +43,8 @@ steps:
     arguments: '--configuration Release'
 
 - task: DotNetCoreCLI@2
+  displayName: Run Tests
   condition: succeededOrFailed()
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
