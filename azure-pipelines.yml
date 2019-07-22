@@ -8,12 +8,12 @@ pr:
 
 strategy:
   matrix:
-    linux:
-      imageName: 'ubuntu-16.04'
-      platformConfig: 'ReleaseLinux'
-    mac:
-      imageName: 'macos-10.14'
-      platformConfig: 'ReleaseMac'
+#    linux:
+#      imageName: 'ubuntu-16.04'
+#      platformConfig: 'ReleaseLinux'
+#    mac:
+#      imageName: 'macos-10.14'
+#      platformConfig: 'ReleaseMac'
     windows:
       imageName: 'windows-2019'
       platformConfig: 'ReleaseWin'
