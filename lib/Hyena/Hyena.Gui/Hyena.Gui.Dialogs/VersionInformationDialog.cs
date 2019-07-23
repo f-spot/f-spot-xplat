@@ -1,0 +1,133 @@
+//
+// VersionInformationDialog.cs
+//
+// Author:
+//   Aaron Bockover <abockover@novell.com>
+//
+// Copyright (C) 2005-2007 Novell, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
+using FSpot.Translations;
+using Gtk;
+
+namespace Hyena.Gui.Dialogs
+{
+    public class VersionInformationDialog : Dialog
+    {
+        Label path_label;
+        TreeView version_tree;
+        TreeStore version_store;
+
+        public VersionInformationDialog() : base()
+        {
+            var accel_group = new AccelGroup();
+            AddAccelGroup(accel_group);
+            Modal = true;
+
+			var button = new Button ("gtk-close") {
+				CanDefault = true,
+				UseStock = true
+			};
+			button.Show();
+            DefaultResponse = ResponseType.Close;
+            button.AddAccelerator("activate", accel_group, (uint)Gdk.Key.Escape,
+                0, Gtk.AccelFlags.Visible);
+
+            AddActionWidget(button, ResponseType.Close);
+
+            Title = Catalog.GetString("Assembly Version Information");
+            BorderWidth = 10;
+
+			version_tree = new TreeView {
+				RulesHint = true
+			};
+			version_tree.AppendColumn(Catalog.GetString("Assembly Name"),
+                new CellRendererText(), "text", 0);
+            version_tree.AppendColumn(Catalog.GetString("Version"),
+                new CellRendererText(), "text", 1);
+
+            version_tree.Model = FillStore();
+            version_tree.CursorChanged += OnCursorChanged;
+
+            var scroll = new ScrolledWindow();
+            scroll.Add(version_tree);
+            scroll.ShadowType = ShadowType.In;
+            scroll.SetSizeRequest(420, 200);
+
+            VBox.PackStart(scroll, true, true, 0);
+            VBox.Spacing = 5;
+
+			path_label = new Label {
+				Ellipsize = Pango.EllipsizeMode.End
+			};
+			path_label.Hide();
+            path_label.Xalign = 0.0f;
+            path_label.Yalign = 1.0f;
+            VBox.PackStart(path_label, false, true, 0);
+
+            scroll.ShowAll();
+        }
+
+        void OnCursorChanged(object o, EventArgs args)
+        {
+            TreeIter iter;
+
+            if(!version_tree.Selection.GetSelected(out iter)) {
+                path_label.Hide();
+                return;
+            }
+
+            object path = version_store.GetValue(iter, 2);
+
+            if(path == null) {
+                path_label.Hide();
+                return;
+            }
+
+            path_label.Text = path as string;
+            path_label.Show();
+        }
+
+        TreeStore FillStore()
+        {
+            version_store = new TreeStore(typeof(string),
+                typeof(string), typeof(string));
+
+            foreach(var asm in AppDomain.CurrentDomain.GetAssemblies()) {
+                string loc;
+				var name = asm.GetName();
+
+                try {
+                    loc = System.IO.Path.GetFullPath(asm.Location);
+                } catch(Exception) {
+                    loc = "dynamic";
+                }
+
+                version_store.AppendValues(name.Name, name.Version.ToString(), loc);
+            }
+
+            version_store.SetSortColumnId(0, SortType.Ascending);
+            return version_store;
+        }
+    }
+}

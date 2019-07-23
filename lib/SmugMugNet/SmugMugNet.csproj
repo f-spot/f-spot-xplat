@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(FSpotTargetFramework)</TargetFramework>
+    <OutputPath>..\..\bin\Extensions</OutputPath>
+    <ReleaseVersion>0.9.0</ReleaseVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Hyena\Hyena\Hyena.csproj" />
+  </ItemGroup>
+
+</Project>

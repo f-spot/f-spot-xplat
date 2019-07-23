@@ -1,0 +1,106 @@
+//
+// ColumnDescription.cs
+//
+// Author:
+//   Aaron Bockover <abockover@novell.com>
+//
+// Copyright (C) 2007 Novell, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
+
+namespace Hyena.Data
+{
+    public class ColumnDescription
+    {
+		string long_title;
+        double width;
+        bool visible;
+		readonly bool initialized;
+
+        public event EventHandler VisibilityChanged;
+        public event EventHandler WidthChanged;
+
+        public ColumnDescription (string property, string title, double width) : this (property, title, width, true)
+        {
+        }
+
+        public ColumnDescription (string property, string title, double width, bool visible)
+        {
+            Property = property;
+            Title = title;
+            long_title = title;
+            Width = width;
+            Visible = visible;
+            initialized = true;
+        }
+
+        protected virtual void OnVisibilityChanged ()
+        {
+			VisibilityChanged?.Invoke (this, EventArgs.Empty);
+		}
+
+        protected virtual void OnWidthChanged ()
+        {
+			WidthChanged?.Invoke (this, EventArgs.Empty);
+		}
+
+        public string Title { get; set; }
+
+        public string LongTitle {
+            get { return long_title; }
+            set { long_title = value; }
+        }
+
+        public double Width {
+            get { return width; }
+            set {
+                if (double.IsNaN (value)) {
+                    return;
+                }
+
+                double old = width;
+                width = value;
+
+                if (initialized && value != old) {
+                    OnWidthChanged ();
+                }
+            }
+        }
+
+        public int OrderHint { get; set; }
+
+        public string Property { get; set; }
+
+        public bool Visible {
+            get { return visible; }
+            set {
+                bool old = Visible;
+                visible = value;
+
+                if(initialized && value != old) {
+                    OnVisibilityChanged ();
+                }
+            }
+        }
+    }
+}
